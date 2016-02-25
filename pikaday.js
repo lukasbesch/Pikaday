@@ -275,7 +275,8 @@
             weekdays      : ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
             weekdaysShort : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
             midnight      : 'Midnight',
-            noon          : 'Noon'
+            noon          : 'Noon',
+            oclock        : 'o\'clock'
         },
 
         // Theme Classname
@@ -445,6 +446,9 @@
         var to_return = '<table cellpadding="0" cellspacing="0" class="pika-time"><tbody><tr>' +
             renderTimePicker(24, hh, 'pika-select-hour', function(i) {
                 if (opts.use24hour) {
+                    if (i <= 9) {
+                        i = ('0' + i).slice(-2);
+                    }
                     return i;
                 } else {
                     var to_return = (i%12) + (i<12 ? ' AM' : ' PM');
@@ -458,14 +462,14 @@
                 }
             },
             opts.incrementHourBy) +
-            '<td>:</td>' +
             renderTimePicker(60, mm, 'pika-select-minute', function(i) { if (i < 10) return "0" + i; return i }, opts.incrementMinuteBy);
 
         if (opts.showSeconds) {
-            to_return += '<td>:</td>' +
-                renderTimePicker(60, ss, 'pika-select-second', function(i) { if (i < 10) return "0" + i; return i }, opts.incrementSecondBy);
+            to_return += renderTimePicker(60, ss, 'pika-select-second', function(i) { if (i < 10) return "0" + i; return i }, opts.incrementSecondBy);
         }
-        return to_return + '</tr></tbody></table>';
+        return to_return +
+            '<td class="pika-label">' + opts.i18n.oclock + '</td>' +
+            '</tr></tbody></table>';
     },
 
 
